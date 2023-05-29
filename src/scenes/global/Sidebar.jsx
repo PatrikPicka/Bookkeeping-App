@@ -49,8 +49,6 @@ const Sidebar = () => {
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const [selected, setSelected] = useState('Dashboard');
 
-	console.log(selected);
-
 	return (
 		<Box sx={{
 			'& .ps-sidebar-root': {
