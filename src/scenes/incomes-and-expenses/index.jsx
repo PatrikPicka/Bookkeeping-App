@@ -214,6 +214,9 @@ const IncomesAndExpenses = () => {
 					<CreateOrEditGroupModal
 						open={openCreateGroupModal}
 						handleClose={handleCloseCreateGroupModal}
+						id={null}
+						name={null}
+						backgroundColor={null}
 					/>
 				</Box>
 			</Box>
@@ -242,6 +245,7 @@ const IncomesAndExpenses = () => {
 									},
 								},
 							}}
+							disableRowSelectionOnClick={true}
 						/>
 					</Box>
 				) : (
@@ -269,6 +273,7 @@ const IncomesAndExpenses = () => {
 										},
 									},
 								}}
+								disableRowSelectionOnClick={true}
 							/>
 						</Box>
 					) : (

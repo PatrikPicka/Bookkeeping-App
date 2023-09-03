@@ -6,7 +6,7 @@ import {CloseOutlined} from "@mui/icons-material";
 
 
 
-const CreateOrEditGroupModal = ({open, handleClose}, id, name, backgroundColor) => {
+const CreateOrEditGroupModal = ({open, handleClose, id, name, backgroundColor}) => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
@@ -23,7 +23,6 @@ const CreateOrEditGroupModal = ({open, handleClose}, id, name, backgroundColor) 
 	};
 
 	const handleCloseModal = () => {
-		console.log(handleClose);
 		handleClose();
 	}
 
