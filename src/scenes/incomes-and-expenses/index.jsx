@@ -1,6 +1,6 @@
 import {
 	Box,
-	Button, IconButton,
+	Button, hexToRgb, IconButton,
 	Typography,
 	useTheme
 } from "@mui/material";
@@ -20,12 +20,14 @@ const testGroupsData = [
 	{
 		id: 1,
 		name: 'Jídlo',
-		backgroundColor: '#db4f4a'
+		backgroundColor: '#db4f4a',
+		type: 'expense',
 	},
 	{
 		id: 2,
 		name: 'Výplata',
-		backgroundColor: '#4cceac'
+		backgroundColor: '#4cceac',
+		type: 'income',
 	}
 ];
 
@@ -36,7 +38,6 @@ const testIncomesAndExpensesData = [
 		date: '25.5.2023',
 		group: testGroupsData[0],
 		accountName: 'AirBank',
-		type: 'expense',
 	},
 	{
 		id: 2,
@@ -44,7 +45,6 @@ const testIncomesAndExpensesData = [
 		date: '15.5.2023',
 		group: testGroupsData[1],
 		accountName: 'AirBank',
-		type: 'income',
 		flex: 1,
 	},
 ];
@@ -53,19 +53,52 @@ const IncomesAndExpenses = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
-	const [openCreateGroupModal, setOpenCreateGroupModal] = useState(false);
+	const [openGroupModal, setOpenGroupModal] = useState(false);
+	const [groupModalData, setGroupModalData] = useState({
+		id: null,
+		name: null,
+		backgroundColor: null,
+		type: null,
+	});
 
-	const handleCloseCreateGroupModal = () => {
-		setOpenCreateGroupModal(false);
-	}
+	const handleCloseGroupModal = () => {
+		setOpenGroupModal(false);
+	};
+	const createGroup = () => {
+		setGroupModalData({
+			id: null,
+			name: null,
+			backgroundColor: null,
+			type: null,
+		});
 
-	const editGroup = (id) => {
-		console.log(id);
-	}
+		setOpenGroupModal(true);
+	};
+	const editGroup = (id, name, backgroundColor, type) => {
+		setGroupModalData({
+			id: id,
+			name: name,
+			backgroundColor: hexToRgb(backgroundColor),
+			type: type,
+		});
+
+		setOpenGroupModal(true);
+	};
+
+	const handleSubmitGroupModal = ({id, name, backgroundColor, type}) => {
+		if (id === null) {
+			// Create new group
+			console.log(id);
+		} else {
+			// Update group
+			console.log(id);
+		}
+	};
+
 
 	const editIncomeOrExpense = (id) => {
 		console.log(id);
-	}
+	};
 
 	let dataGridItemsPerPage = 25;
 
@@ -74,11 +107,11 @@ const IncomesAndExpenses = () => {
 			field: 'amount',
 			headerName: 'Částka',
 			flex: 1,
-			renderCell: ({row: { amount, type }}) => {
+			renderCell: ({row: { amount, group }}) => {
 				return (
 					<Typography
-						color={type === 'income' ? `${colors.greenAccent[500]}` : `${colors.redAccent[500]}`}
-					>{type === 'income' ? amount : '-' + amount}</Typography>
+						color={group.type === 'income' ? `${colors.greenAccent[500]}` : `${colors.redAccent[500]}`}
+					>{group.type === 'income' ? amount : '-' + amount}</Typography>
 				);
 			}
 		},
@@ -163,9 +196,9 @@ const IncomesAndExpenses = () => {
 			mr: '1rem',
 			flex: 1,
 			sortable: false,
-			renderCell: ({row: { id }}) => {
+			renderCell: ({row: { id, name, backgroundColor, type }}) => {
 				return (
-					<IconButton aria-label='Edit group'  onClick={() => {editGroup(id)}}>
+					<IconButton aria-label='Edit group'  onClick={() => {editGroup(id, name, backgroundColor, type)}}>
 						<EditOutlined />
 					</IconButton>
 				);
@@ -195,7 +228,7 @@ const IncomesAndExpenses = () => {
 						Add new income
 					</Button>
 					<Button
-						onClick={() => {console.log('create_new_expense')}}
+						onClick={() => {console.log('create_new_transaction')}}
 						variant='outlined'
 						color='error'
 						sx={{
@@ -205,19 +238,21 @@ const IncomesAndExpenses = () => {
 						Add new expense
 					</Button>
 					<Button
-						onClick={() => {setOpenCreateGroupModal(true)}}
+						onClick={createGroup}
 						variant='outlined'
 						color='tertiary'
 					>
 						Add new group
 					</Button>
-					<CreateOrEditGroupModal
-						open={openCreateGroupModal}
-						handleClose={handleCloseCreateGroupModal}
-						id={null}
-						name={null}
-						backgroundColor={null}
-					/>
+					{ openGroupModal === true ? <CreateOrEditGroupModal
+						open={openGroupModal}
+						handleClose={handleCloseGroupModal}
+						handleSubmit={handleSubmitGroupModal}
+						id={groupModalData.id}
+						name={groupModalData.name}
+						backgroundColor={groupModalData.backgroundColor}
+						type={groupModalData.type}
+					/> : null }
 				</Box>
 			</Box>
 

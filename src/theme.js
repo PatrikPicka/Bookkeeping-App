@@ -31,6 +31,7 @@ export const tokens = (mode) => ({
 				700: '#0c101b',
 				800: '#080b12',
 				900: '#040509',
+				T500: 'rgba(20,27,45,0.78)',
 			},
 			greenAccent: {
 				100: '#dbf5ee',
