@@ -1,6 +1,7 @@
 import Header from '../../components/Header';
 import { Box } from '@mui/material';
 import { useQuery, gql } from "@apollo/client";
+import { useAuthHeader } from "react-auth-kit";
 
 const GET_USERS = gql`
 	{
@@ -14,10 +15,6 @@ const GET_USERS = gql`
 
 const Dashboard = () => {
 	const {data, loading, error} = useQuery(GET_USERS);
-
-	// if (loading) return "Loading...";
-	// if (error) return <pre>{error.message}</pre>
-
 
 	return (
 		<Box m='1.25rem'>

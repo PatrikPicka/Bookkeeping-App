@@ -14,7 +14,9 @@ import {
 } from "@mui/icons-material";
 import Header from "../../components/Header";
 import CreateOrEditGroupModal from "./modals/CreateOrEditGroupModal";
-import {useState} from "react";
+import { useEffect, useState } from "react";
+import GQLClient from "../../GraphQL";
+import { gql } from "@apollo/client";
 
 const testGroupsData = [
 	{
@@ -94,7 +96,6 @@ const IncomesAndExpenses = () => {
 			console.log(id);
 		}
 	};
-
 
 	const editIncomeOrExpense = (id) => {
 		console.log(id);
@@ -205,6 +206,18 @@ const IncomesAndExpenses = () => {
 			}
 		}
 	];
+
+	const groups = [];
+
+	// useEffect(() => {
+	// 	GQLClient.query({
+	// 		query: gql`
+	// 			query GetIncomeAndExpenseGroups {
+	//
+	// 			}
+	// 		`,
+	// 	});
+	// });
 
 	return (
 		<Box m='1.25rem'>

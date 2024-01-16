@@ -1,10 +1,10 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { Link, useNavigate } from "react-router-dom";
-import { useIsAuthenticated, useSignIn } from "react-auth-kit";
+import { useAuthHeader, useIsAuthenticated, useSignIn } from "react-auth-kit";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Login = () => {
 	const theme = useTheme();
@@ -12,6 +12,7 @@ const Login = () => {
 	const login = useSignIn();
 	const navigate = useNavigate();
 	const isAuthenticated = useIsAuthenticated();
+	const [loginError, setLoginError] = useState(false);
 
 	const handleCallbackResponse = async (response) => {
 		const name = jwtDecode(response.credential).given_name;
@@ -43,7 +44,7 @@ const Login = () => {
 
 			navigate('/');
 		}).catch((error) => {
-			console.log(error);
+			setLoginError(true);
 		});
 	}
 
@@ -140,6 +141,16 @@ const Login = () => {
 					alignItems={ 'center' }
 					id={ 'sign_in_button_wrapper' }
 				></Box>
+				{ loginError === true ? <Typography
+					color={ colors.redAccent[500] }
+					style={ {
+						textAlign: 'center',
+						maxWidth: '550px',
+						margin: '0.5rem auto',
+					} }
+				>
+					Při přihlašování nastal problém. Zkuste to znovu prosím později.
+				</Typography> : null }
 			</Box>
 		</Box>
 	);
