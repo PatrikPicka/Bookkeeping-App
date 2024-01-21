@@ -106,7 +106,7 @@ const IncomesAndExpenses = () => {
 	const columnsIncomesAndExpenses = [
 		{
 			field: 'amount',
-			headerName: 'Částka',
+			headerName: 'Ammount',
 			flex: 1,
 			renderCell: ({row: { amount, group }}) => {
 				return (
@@ -118,7 +118,7 @@ const IncomesAndExpenses = () => {
 		},
 		{
 			field: 'group',
-			headerName: 'Skupina',
+			headerName: 'Group',
 			headerAlign: 'left',
 			flex: 1,
 			sortable: false,
@@ -139,17 +139,17 @@ const IncomesAndExpenses = () => {
 		},
 		{
 			field: 'accountName',
-			headerName: 'Účet',
+			headerName: 'Account name',
 			flex: 1,
 		},
 		{
 			field: 'date',
-			headerName: 'Datum',
+			headerName: 'Date',
 			flex: 1,
 		},
 		{
 			field: 'id',
-			headerName: 'Editovat',
+			headerName: 'Edit',
 			headerAlign: 'right',
 			align: 'right',
 			mr: '1rem',
@@ -168,12 +168,12 @@ const IncomesAndExpenses = () => {
 	const columnsGroups = [
 		{
 			field: 'name',
-			headerName: 'Jméno skupiny',
+			headerName: 'Group name',
 			flex: 1,
 		},
 		{
 			field: 'backgroundColor',
-			headerName: 'Barva',
+			headerName: 'Color',
 			flex: 1,
 			renderCell: ({row: {backgroundColor}}) => {
 				return (
@@ -191,7 +191,7 @@ const IncomesAndExpenses = () => {
 		},
 		{
 			field: 'id',
-			headerName: 'Editovat',
+			headerName: 'Edit',
 			headerAlign: 'right',
 			align: 'right',
 			mr: '1rem',
@@ -278,7 +278,7 @@ const IncomesAndExpenses = () => {
 				{testIncomesAndExpensesData.length > 0 ? (
 					<Box px={'1.25rem'}>
 						<Typography variant={'h3'} color={colors.grey[100]}>
-							Vyýpis výdajů a příjmů
+							List of incomes and expenses
 						</Typography>
 						<DataGrid
 							sx={{
@@ -298,7 +298,7 @@ const IncomesAndExpenses = () => {
 					</Box>
 				) : (
 					<Typography variant='h6' color={colors.grey[300]} textAlign='center' >
-						Pro zobrazení dat musíte nejdříve nejdřív zadat nějaké příjmy/výdaje.
+						To display any data you need first to create Account and Group and then create new income/expense.
 					</Typography>
 				)}
 				</Grid>
@@ -306,7 +306,7 @@ const IncomesAndExpenses = () => {
 					{testGroupsData.length > 0 ? (
 						<Box >
 							<Typography variant={'h3'} color={colors.grey[100]}>
-								Výpis skupin příjmů a výdajů
+								List of groups
 							</Typography>
 							<DataGrid
 								sx={{
@@ -326,7 +326,7 @@ const IncomesAndExpenses = () => {
 						</Box>
 					) : (
 						<Typography variant='h6' color={colors.grey[300]} textAlign='center' >
-							Pro zobrazení a vytvoření příjmu/výdaje musíte nejprve vytvořit skupinu.
+							To display any data you first need to create Group.
 						</Typography>
 					)}
 				</Grid>

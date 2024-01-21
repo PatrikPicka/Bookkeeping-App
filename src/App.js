@@ -12,6 +12,7 @@ import Sidebar from './scenes/global/Sidebar';
 import Dashboard from './scenes/dashboard';
 import MoneyFlow from './scenes/money-flow';
 import IncomesAndExpenses from './scenes/incomes-and-expenses';
+import Accounts from './scenes/accounts';
 import Login from "./components/Login";
 
 // import AccountsDashboard from './scenes/accounts';
@@ -22,7 +23,7 @@ const App = () => {
 	const isAuthenticated = useIsAuthenticated();
 
 	const PrivateRoute = ({ Component }) => {
-		return isAuthenticated() ? Component : <Navigate to="/login" />;
+		return isAuthenticated() ? Component : <Navigate to="/login"/>;
 	};
 
 	return (
@@ -37,10 +38,13 @@ const App = () => {
 							<Routes>
 								<Route path='/login' element={ <Login/> }/>
 								<Route path='/'
-									   element={ <PrivateRoute Component={<Dashboard/>} /> }/>
+									   element={ <PrivateRoute Component={ <Dashboard/> }/> }/>
 								<Route path='/money-flow'
-									   element={ <PrivateRoute Component={ <MoneyFlow/> } /> }/>
-								<Route path='/incomes-and-expenses' element={ <PrivateRoute Component={ <IncomesAndExpenses/> } /> }/>
+									   element={ <PrivateRoute Component={ <MoneyFlow/> }/> }/>
+								<Route path='/incomes-and-expenses'
+									   element={ <PrivateRoute Component={ <IncomesAndExpenses/> }/> }/>
+								<Route path='/accounts'
+									   element={ <PrivateRoute Component={ <Accounts/> }/> }/>
 							</Routes>
 						</main>
 					</Box>

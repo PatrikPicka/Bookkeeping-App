@@ -33,7 +33,7 @@ const Login = () => {
 
 			login({
 				token: response.data.token,
-				expiresIn: 3600,
+				expiresIn: 12,
 				tokenType: "Bearer",
 				authState: {
 					id: jwtData.id,
@@ -108,7 +108,7 @@ const Login = () => {
 						marginBottom: '0.5rem',
 					} }
 				>
-					Učetnictví kde můžete mít vše!
+					Bookkeeping where you can have everything!
 				</Typography>
 				<Typography
 					color={ colors.grey[100] }
@@ -118,8 +118,8 @@ const Login = () => {
 						margin: '0 auto',
 					} }
 				>
-					Tato aplikace je podmíněna přihlášením pře Google účet.
-					Pokud jej nemáte můžete si jej vytvořit zde:
+					To use this app you need to be logged in by Google account.
+					If you do not have any, you can create it here:
 					<Link
 						to={ 'https://accounts.google.com/' }
 						style={ {
@@ -130,7 +130,7 @@ const Login = () => {
 							}
 						} }
 					>
-						&nbsp;&nbsp;Vytvořit účet google
+						&nbsp;&nbsp;Create Google account
 					</Link>
 				</Typography>
 
@@ -149,7 +149,7 @@ const Login = () => {
 						margin: '0.5rem auto',
 					} }
 				>
-					Při přihlašování nastal problém. Zkuste to znovu prosím později.
+					There was an error while logging you in. PLease try again later.
 				</Typography> : null }
 			</Box>
 		</Box>
