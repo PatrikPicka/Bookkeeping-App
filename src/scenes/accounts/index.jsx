@@ -46,9 +46,10 @@ function DisplayAccounts(editAccount) {
 		return <Typography color={colors.redAccent[500]}>There was an error while fetching data. Please reload the page and try again.</Typography>
 	}
 console.log('accounts');
-	setAccounts(data.userAccounts.edges.map(edgeData => {
-		return edgeData.node
-	}));
+	//TODO: Vyřešit proč hází error too many re-renders
+	// setAccounts(data.userAccounts.edges.map(edgeData => {
+	// 	return edgeData.node
+	// }));
 console.log(accounts);
 	/** Table configuration **/
 	let dataGridItemsPerPage = 25;
@@ -64,7 +65,7 @@ console.log(accounts);
 						color={`${colors.blueAccent[300]}`}
 					>
 						{name}
-						<IconButton aria-label='edit' onClick={() => {editAccount(id, name, balance, currency.id)}}>
+						<IconButton aria-label='edit' onClick={editAccount(id, name, balance, currency.id)}>
 							<EditOutlined />
 						</IconButton>
 					</Typography>
@@ -90,7 +91,7 @@ console.log(accounts);
 		},
 	];
 
-	return <Grid
+	return (<Grid
 		container
 		spacing={2}
 		marginTop='1.5rem'
@@ -123,7 +124,7 @@ console.log(accounts);
 				</Typography>
 			)}
 		</Grid>
-	</Grid>;
+	</Grid>);
 }
 
 const Accounts = () => {

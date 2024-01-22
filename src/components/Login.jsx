@@ -33,7 +33,7 @@ const Login = () => {
 
 			login({
 				token: response.data.token,
-				expiresIn: 12,
+				expiresIn: 720,
 				tokenType: "Bearer",
 				authState: {
 					id: jwtData.id,

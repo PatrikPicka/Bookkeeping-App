@@ -1,6 +1,6 @@
 import {ApolloClient, InMemoryCache} from "@apollo/client";
 
-//TODO: upravit aby se bral token z cookies/react-auth-kit zapojit --- context
+//TODO: Nefunguje, zeptat se michala zda neví jak udělat lépe?
 const GQLClient = new ApolloClient({
 	uri: process.env.REACT_APP_API_URL + "graphql",
 	cache: new InMemoryCache(),
