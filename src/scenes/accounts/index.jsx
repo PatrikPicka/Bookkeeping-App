@@ -15,20 +15,14 @@ import {
 import Header from "../../components/Header";
 import CreateOrEditAccountModal from "./modals/CreateOrEditAccountModal";
 import { useEffect, useState } from "react";
-import GQLClient from "../../GraphQL";
-import { gql } from "@apollo/client";
+import { useQuery, gql } from "@apollo/client";
 import { useAuthHeader, useAuthUser } from "react-auth-kit";
 
-const Accounts = () => {
+function DisplayAccounts(editAccount) {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-
 	const [accounts, setAccounts] = useState([]);
-	const authHeader = useAuthHeader()
-
-	useEffect(() => {
-		GQLClient.query({
-			query: gql`
+	const {loading, error, data} = useQuery(gql`
 				query GetUsersAccounts {
 					userAccounts {
 						edges {
@@ -43,59 +37,19 @@ const Accounts = () => {
 						}
 					}
 				}
-			`,
-		}).then(result => {
-			setAccounts(result.data.userAccounts.edges.map(data => {
-				return data.node
-			}));
-		}).catch(error => {
-			alert(error);
-		});
-	});
+			`
+	);
 
-	/** Modal configuration **/
-	const [openAccountModal, setOpenAccountModal] = useState(false);
-	const [accountModalData, setAccountModalData] = useState({
-		id: null,
-		name: null,
-		balance: null,
-		currency: null,
-	});
-
-	const handleCloseAccountModal = () => {
-		setOpenAccountModal(false);
-	};
-	const createAccount = () => {
-		setAccountModalData({
-			id: null,
-			name: null,
-			balance: null,
-			currency: null,
-		});
-
-		setOpenAccountModal(true);
-	};
-	const editAccount = (id, name, balance, currency) => {
-		setAccountModalData({
-			id: id,
-			name: name,
-			balance: balance,
-			currency: currency,
-		});
-
-		setOpenAccountModal(true);
-	};
-
-	const handleSubmitAccountModal = ({id, name, backgroundColor, type}) => {
-		if (id === null) {
-			// Create new account
-			console.log(id);
-		} else {
-			// Update account
-			console.log(id);
-		}
-	};
-
+	if (loading) {
+		return <Typography color={colors.greenAccent[500]}>Loading...</Typography>
+	} else if (error) {
+		return <Typography color={colors.redAccent[500]}>There was an error while fetching data. Please reload the page and try again.</Typography>
+	}
+console.log('accounts');
+	setAccounts(data.userAccounts.edges.map(edgeData => {
+		return edgeData.node
+	}));
+console.log(accounts);
 	/** Table configuration **/
 	let dataGridItemsPerPage = 25;
 
@@ -136,6 +90,78 @@ const Accounts = () => {
 		},
 	];
 
+	return <Grid
+		container
+		spacing={2}
+		marginTop='1.5rem'
+	>
+		<Grid xs={12}>
+			{accounts.length > 0 ? (
+				<Box px={'1.25rem'}>
+					<Typography variant={'h3'} color={colors.grey[100]}>
+						Your accounts
+					</Typography>
+					<DataGrid
+						sx={{
+							mt: '1rem',
+						}}
+						columns={columnsAccounts}
+						rows={accounts}
+						initialState={{
+							pagination: {
+								paginationModel: {
+									pageSize: dataGridItemsPerPage,
+								},
+							},
+						}}
+						disableRowSelectionOnClick={true}
+					/>
+				</Box>
+			) : (
+				<Typography variant='h6' color={colors.grey[300]} textAlign='center' >
+					To display this data you need first to create an Account.
+				</Typography>
+			)}
+		</Grid>
+	</Grid>;
+}
+
+const Accounts = () => {
+	const theme = useTheme();
+	const colors = tokens(theme.palette.mode);
+	/** Modal configuration **/
+	const [openAccountModal, setOpenAccountModal] = useState(false);
+	const [accountModalData, setAccountModalData] = useState({
+		id: null,
+		name: null,
+		balance: null,
+		currency: null,
+	});
+
+	const handleCloseAccountModal = () => {
+		setOpenAccountModal(false);
+	};
+	const createAccount = () => {
+		setAccountModalData({
+			id: null,
+			name: null,
+			balance: null,
+			currency: null,
+		});
+
+		setOpenAccountModal(true);
+	};
+
+	const handleSubmitAccountModal = ({id, name, backgroundColor, type}) => {
+		if (id === null) {
+			// Create new account
+			console.log(id);
+		} else {
+			// Update account
+			console.log(id);
+		}
+	};
+
 	return (
 		<Box m='1.25rem'>
 			<Box display='flex' justifyContent='space-between' alignItems='center'>
@@ -166,40 +192,16 @@ const Accounts = () => {
 				</Box>
 			</Box>
 
-			<Grid
-				container
-				spacing={2}
-				marginTop='1.5rem'
-			>
-				<Grid xs={12}>
-				{accounts.length > 0 ? (
-					<Box px={'1.25rem'}>
-						<Typography variant={'h3'} color={colors.grey[100]}>
-							Your accounts
-						</Typography>
-						<DataGrid
-							sx={{
-								mt: '1rem',
-							}}
-							columns={columnsAccounts}
-							rows={accounts}
-							initialState={{
-								pagination: {
-									paginationModel: {
-										pageSize: dataGridItemsPerPage,
-									},
-								},
-							}}
-							disableRowSelectionOnClick={true}
-						/>
-					</Box>
-				) : (
-					<Typography variant='h6' color={colors.grey[300]} textAlign='center' >
-						To display this data you need first to create an Account.
-					</Typography>
-				)}
-				</Grid>
-			</Grid>
+			<DisplayAccounts editAccount={(id, name, balance, currency) => {
+				setAccountModalData({
+					id: id,
+					name: name,
+					balance: balance,
+					currency: currency,
+				});
+
+				setOpenAccountModal(true);
+			}}/>
 		</Box>
 	);
 };
